@@ -4,3 +4,6 @@
     /* border: 1px solid ; */
     border-radius: 8px;
 }
+.proceed-link{
+    text-decoration: none;
+}
