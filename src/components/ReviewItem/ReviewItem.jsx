@@ -5,7 +5,7 @@ import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 
 const ReviewItem = ({ product, removeFromCart }) => {
-    const {id, name, price, img, quantity} = product;
+    const {_id, name, price, img, quantity} = product;
     return (
         <div className='review-item'>
             <div className='xx'>
@@ -18,7 +18,7 @@ const ReviewItem = ({ product, removeFromCart }) => {
                     <p>Quantity: <span className='orange-title'>{quantity}</span></p>
                 </div>
             </div>
-            <button onClick={() => removeFromCart(id)} className='btn-delete'> <FontAwesomeIcon className='delete-icon' icon={faTrashCan} /> </button>
+            <button onClick={() => removeFromCart(_id)} className='btn-delete'> <FontAwesomeIcon className='delete-icon' icon={faTrashCan} /> </button>
         </div>
     );
 };

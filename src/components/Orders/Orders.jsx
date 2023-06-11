@@ -11,35 +11,35 @@ const Orders = () => {
     const [cart, setCart] = useState(savedCart);
     // console.log(cart)
     // const removeFromCart = (id) => {
-    //     const remaining = cart.filter(product => product.id !== id);
+    //     const remaining = cart.filter(product => product._id !== id);
     //     setCart(remaining);
     //     console.log(id)
     // }
-    const removeFromCart = (id) =>{
-        const remaining = cart.filter(product => product.id !== id);
+    const removeFromCart = (id) => {
+        const remaining = cart.filter(product => product._id !== id);
         setCart(remaining);
         removeFromDb(id)
     }
 
-    const clearCart = () =>{
+    const clearCart = () => {
         setCart([]);
         deleteShoppingCart();
     }
     return (
-        <div className='shop-container'> 
+        <div className='shop-container'>
             <div className='review-container'>
                 {
-                    savedCart.map(product => <ReviewItem 
-                        key={product.id}
+                    savedCart.map(product => <ReviewItem
+                        key={product._id}
                         product={product}
                         removeFromCart={removeFromCart}
                     ></ReviewItem>)
                 }
             </div>
             <div className='cart-container'>
-                <Cart 
-                cart={cart}
-                clearCart={clearCart}
+                <Cart
+                    cart={cart}
+                    clearCart={clearCart}
                 >
                     <Link to="/checkout" className='proceed-link'>
                         <button className='btn-proceed'>Proceed To Checkout</button>
