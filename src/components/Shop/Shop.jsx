@@ -4,11 +4,17 @@ import './Shop.css'
 import Product from '../Product/Product';
 import Cart from '../Cart/Cart';
 import { addToDb, deleteShoppingCart, getShoppingCart } from '../../utilities/fakedb';
-import { Link } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 
 const Shop = () => {
     const [products, setProducts] = useState([]);
     const [cart, setCart] = useState([]);
+    const { totalProducts } = useLoaderData();
+
+    const itemsPerPage = 10;
+    const totalPages = Math.ceil(totalProducts / itemsPerPage)
+    console.log(totalPages)
+    const pageNumbers = [...Array(totalPages).keys()];
 
     useEffect(() => {
         fetch('http://localhost:5000/products')
@@ -34,7 +40,6 @@ const Shop = () => {
                 const quantity = storedCart[id];
                 addedProduct.quantity = quantity;
                 savedCart.push(addedProduct);
-
             }
         }
         setCart(savedCart);
@@ -62,28 +67,35 @@ const Shop = () => {
         deleteShoppingCart();
     }
     return (
-        <div className='shop-container'>
-            <div className='products-container'>
+        <>
+            <div className='shop-container'>
+                <div className='products-container'>
+                    {
+                        products.map(product => <Product
+                            key={product._id}
+                            product={product}
+                            handleAddToCart={handleAddToCart}
+                        ></Product>)
+                    }
+                </div>
+                <div className='cart-container'>
+                    <Cart
+                        cart={cart}
+                        clearCart={clearCart}
+                    >
+                        <Link to="/orders" className='proceed-link'>
+                            <button className='btn-proceed'>Review Order</button>
+                        </Link>
+                    </Cart>
+                </div>
+
+            </div>
+            <div className="pagination">
                 {
-                    products.map(product => <Product
-                        key={product._id}
-                        product={product}
-                        handleAddToCart={handleAddToCart}
-                    ></Product>)
+                    pageNumbers.map(number => <button key={number}>{number}</button>)
                 }
             </div>
-            <div className='cart-container'>
-                <Cart
-                    cart={cart}
-                    clearCart={clearCart}
-                >
-                    <Link to="/orders" className='proceed-link'>
-                        <button className='btn-proceed'>Review Order</button>
-                    </Link>
-                </Cart>
-            </div>
-
-        </div>
+        </>
     );
 };
 
